@@ -1,0 +1,131 @@
+/* Add these responsive styles to your style.css file */
+
+/* Base responsive settings */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Make canvases responsive */
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Small screen adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  #primitiveInfo {
+    display: block;
+    margin-top: 0.5rem;
+    margin-left: 0 !important;
+  }
+
+  .canvas-container {
+    width: 100%;
+  }
+
+  canvas {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .flex.items-center.mb-4.space-x-2 {
+    flex-wrap: wrap;
+  }
+
+  .ml-auto {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}
+
+/* Extra small screen adjustments */
+@media (max-width: 480px) {
+  h1.text-3xl {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+
+  .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .p-6 {
+    padding: 1rem;
+  }
+
+  .space-x-2 > * + * {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+
+  .flex.items-center.mb-4.space-x-2 {
+    display: block;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  #codeSnippet {
+    font-size: 0.75rem;
+  }
+}
+
+/* Make sure canvases keep their aspect ratio */
+.canvas-container {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 769px) {
+  .canvas-container {
+    max-width: 48%;
+  }
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Fix for footer on small screens */
+footer {
+  margin-top: 3rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Better spacing for primitive explanation panel on mobile */
+#explanationPanel {
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}

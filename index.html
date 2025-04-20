@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGL 2D Vertex Coordinates Tool</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-50">
+    <div class="container mx-auto p-4">
+      <!-- Personalized Header -->
+      <div class="mb-8 text-center">
+        <h1 class="text-3xl font-bold text-center py-2 text-blue-800">
+          WebGL 2D Vertex Coordinates Tool
+        </h1>
+        <div class="text-lg text-gray-600 italic">
+          Created by Ntlakanipho Mgaguli
+        </div>
+        <div class="w-24 h-1 bg-blue-600 mx-auto mt-2"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="text-gray-700 mb-4">
+          This tool helps students understand how WebGL coordinates work. Click
+          on the left canvas to place vertices, and see how they appear in
+          WebGL's normalized device coordinates (NDC) on the right.
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label
+              for="shapeSelect"
+              class="block mb-2 text-lg font-medium text-gray-700"
+              >Select Shape:</label
+            >
+            <select
+              id="shapeSelect"
+              class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="point">Point</option>
+              <option value="line">Line</option>
+              <option value="line_strip">Line Strip</option>
+              <option value="line_loop">Line Loop</option>
+              <option value="triangle">Triangle</option>
+              <option value="triangle_strip">Triangle Strip</option>
+              <option value="triangle_fan">Triangle Fan</option>
+              <option value="rectangle">Rectangle (TRIANGLE_FAN)</option>
+              <option value="pentagon">Pentagon (TRIANGLE_FAN)</option>
+              <option value="hexagon">Hexagon (TRIANGLE_FAN)</option>
+              <option value="octagon">Octagon (TRIANGLE_FAN)</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              for="colorPicker"
+              class="block mb-2 text-lg font-medium text-gray-700"
+              >Vertex Color:</label
+            >
+            <input
+              type="color"
+              id="colorPicker"
+              value="#ff0000"
+              class="h-10 w-full rounded-md border border-gray-300 shadow-sm"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center mb-4 space-x-2">
+          <button
+            id="resetBtn"
+            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none"
+          >
+            Reset Vertices
+          </button>
+          <button
+            id="undoBtn"
+            class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none"
+          >
+            Undo Last Vertex
+          </button>
+          <div class="ml-auto">
+            <span id="primitiveInfo" class="text-lg text-gray-700">
+              WebGL Primitive:
+              <code id="primitiveName" class="bg-gray-200 px-2 py-1 rounded"
+                >gl.POINTS</code
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col md:flex-row justify-center md:justify-between items-center mb-6 space-y-4 md:space-y-0 md:space-x-4"
+      >
+        <div class="canvas-container bg-white rounded-lg shadow-md p-4">
+          <div class="canvas-label">Input Canvas (Pixel Coordinates)</div>
+          <canvas
+            id="inputCanvas"
+            width="400"
+            height="400"
+            class="border border-gray-300"
+          ></canvas>
+          <div class="text-center mt-2 text-sm text-gray-600">
+            Click to place vertices (max: <span id="maxVertices">1</span>)
+          </div>
+        </div>
+
+        <div class="canvas-container bg-white rounded-lg shadow-md p-4">
+          <div class="canvas-label">WebGL Canvas (NDC)</div>
+          <canvas
+            id="glCanvas"
+            width="400"
+            height="400"
+            class="border border-gray-300"
+          ></canvas>
+          <div class="text-center mt-2 text-sm text-gray-600">
+            NDC ranges from -1 to 1 on both axes
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">
+          WebGL Coordinates Guide
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 bg-blue-50 rounded-lg">
+            <h3 class="font-semibold text-blue-800 mb-2">
+              Normalized Device Coordinates (NDC)
+            </h3>
+            <ul class="list-disc pl-5 text-sm text-gray-700">
+              <li>Range from -1.0 to 1.0 on both axes</li>
+              <li>(0,0) is at the center of the canvas</li>
+              <li>(-1,-1) is bottom-left corner</li>
+              <li>(1,1) is top-right corner</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg">
+            <h3 class="font-semibold text-green-800 mb-2">
+              WebGL Drawing Process
+            </h3>
+            <ul class="list-disc pl-5 text-sm text-gray-700">
+              <li>Vertices define points in 3D space (x,y,z)</li>
+              <li>
+                Primitives (TRIANGLES, LINES, etc.) determine how vertices
+                connect
+              </li>
+              <li>For 2D shapes, we typically set z=0</li>
+              <li>Colors are defined as RGB values from 0.0 to 1.0</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">
+          Generated WebGL Code
+        </h2>
+        <pre
+          id="codeSnippet"
+          class="bg-gray-100 p-4 rounded-md overflow-x-auto"
+        ></pre>
+        <button
+          id="copyCodeBtn"
+          class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none"
+        >
+          Copy to Clipboard
+        </button>
+      </div>
+
+      <!-- Personalized Footer -->
+      <footer
+        class="mt-12 py-4 bg-gray-100 text-center text-gray-600 rounded-lg"
+      >
+        <div class="px-4">
+          <p>WebGL 2D Vertex Coordinates Tool &copy; 2025</p>
+          <p class="mt-1">Designed and developed by Ntlakanipho Mgaguli</p>
+        </div>
+      </footer>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
