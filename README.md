@@ -2,6 +2,11 @@
 
 An interactive educational tool to help students understand WebGL vertex coordinates and primitive types.
 
+🟢 **Live Demo:**  
+👉 [https://vertices-visualiser.netlify.app](https://vertices-visualiser.netlify.app)
+
+---
+
 ## Features
 
 - Interactive canvas where students can place vertices
@@ -9,26 +14,32 @@ An interactive educational tool to help students understand WebGL vertex coordin
 - Conversion between pixel coordinates and Normalized Device Coordinates (NDC)
 - Support for multiple primitive types (POINTS, LINES, TRIANGLES, etc.)
 - Color selection for vertices
+- Undo and Reset buttons for easy control
 - Auto demo mode to show optimal vertex placement
-- 3D shape examples
+- Tooltips and primitive explanation panel
 - Responsive design for all device sizes
+- Dark/Light mode toggle for better accessibility
+
+---
 
 ## How to Use
 
 1. Select a primitive type from the dropdown menu
-2. Click on the left canvas to place vertices
-3. Watch as the shape appears in the WebGL canvas on the right
-4. Use the auto demo button to see predefined examples
-5. Copy the generated code to use in your own WebGL projects
+2. Choose a color for your vertices
+3. Click on the left canvas to place vertices
+4. Watch as the shape appears in the WebGL canvas on the right
+5. Use the Auto Demo button to see predefined vertex placement
+6. Copy the generated code to use in your own WebGL projects
+7. Toggle between light and dark themes using the button in the top-right corner
+
+---
 
 ## Local Development
 
 To run this tool locally:
 
 1. Clone this repository
-2. Open index.html in a modern browser
-3. No build tools or dependencies required!
-
-## Created By
-
-Designed and developed by Ntlakanipho Mgaguli
+   ```bash
+   git clone https://github.com/2Ntlaks/VerticesVisualiser.git
+   cd VerticesVisualiser
+   ```
